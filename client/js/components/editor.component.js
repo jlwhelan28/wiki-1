@@ -1,7 +1,11 @@
-'use strict'
-
 /* global $, siteRoot */
-
+'use strict'
+const MonsterBlockGen = require('./toolbar/monsterblock.gen.js');
+const MagicGen = require('./toolbar/magic.gen.js');
+const ClassTableGen = require('./toolbar/classtable.gen.js');
+const ClassFeatureGen = require('./toolbar/classfeature.gen.js');
+const CoverPageGen = require('./toolbar/coverpage.gen.js');
+const TableOfContentsGen = require('./toolbar/tableOfContents.gen.js');
 let mde
 
 export default {
@@ -52,7 +56,7 @@ export default {
     FuseBox.import('/js/simplemde/simplemde.min.js', (SimpleMDE) => {
       mde = new SimpleMDE({
         autofocus: true,
-        autoDownloadFontAwesome: false,
+        autoDownloadFontAwesome: true,
         element: this.$refs.editorTextArea,
         placeholder: 'Enter Markdown formatted content here...',
         spellChecker: false,
@@ -193,6 +197,166 @@ export default {
             action: SimpleMDE.drawHorizontalRule,
             className: 'nc-icon-outline design_distribute-vertical',
             title: 'Horizontal Rule'
+          },
+          '|',
+          {
+    				name: 'Spell',
+            title: 'Spell',
+    				className: 'fa fa-magic',
+    				action: (editor) => {
+              editor.codemirror.replaceSelection(MagicGen.spell())
+            }
+    			},
+    			{
+    				name: 'Spell List',
+            title: 'Spell List',
+    				className: 'fa fa-list',
+    				action: (editor) => {
+              editor.codemirror.replaceSelection(MagicGen.spellList())
+            }
+    			},
+    			{
+    				name : 'Class Feature',
+            title: 'Class Feature',
+    				className: 'fa fa-trophy',
+    				action: (editor) => {
+              editor.codemirror.replaceSelection(ClassFeatureGen())
+            }
+    			},
+    			{
+    				name: 'Note',
+            title: 'Note',
+    				className: 'fa fa-sticky-note',
+    				action: (editor) => {
+    					editor.codemirror.replaceSelection([
+    						'> ##### Time to Drop Knowledge',
+    						'> Use notes to point out some interesting information. ',
+    						'> ',
+    						'> **Tables and lists** both work within a note.'
+              ].join('\n'))
+            }
+    			},
+    			{
+    				name: 'Descriptive Text Box',
+            title: 'Descriptive Text Box',
+    				className: 'fa fa-sticky-note-o',
+    				action: (editor) => {
+    					editor.codemirror.replaceSelection([
+    						'<div class=\'descriptive\'>',
+    						'##### Time to Drop Knowledge',
+    						'Use notes to point out some interesting information. ',
+    						'',
+    						'**Tables and lists** both work within a note.',
+    						'</div>'
+    					].join('\n'));
+            }
+    			},
+          {
+            name: 'monster-stat-block',
+            title: 'Monster Stat Block',
+            action: (editor) => {
+              editor.codemirror.replaceSelection(MonsterBlockGen.half())
+              // todo
+            },
+            className: 'fa fa-bug'
+          },
+    			{
+    				name: 'Wide Monster Stat Block',
+            title: 'Full Monster Stat Block',
+    				className: 'fa fa-paw',
+    				action: (editor) => {
+              editor.codemirror.replaceSelection(MonsterBlockGen.full())
+            }
+    			},
+    			{
+    				name : 'Cover Page',
+            title: 'Cover Page',
+    				className: 'fa fa-file-word-o',
+    				action: (editor) => {
+              editor.codemirror.replaceSelection(CoverPageGen())
+            }
+    			},
+          '|',
+          {
+            name: 'Class Table',
+            title: 'Full Class Table',
+            className: 'fa fa-table',
+            action: (editor) => {
+              editor.codemirror.replaceSelection(ClassTableGen.full())
+            }
+          },
+          {
+            name: 'Half Class Table',
+            title: 'Half Class Table',
+            className: 'fa fa-list-alt',
+            action: (editor) => {
+              editor.codemirror.replaceSelection(ClassTableGen.half())
+            }
+          },
+          {
+            name: 'Table',
+            className: 'fa fa-th-list',
+            title: 'Table',
+            action: (editor) => {
+              editor.codemirror.replaceSelection([
+                '##### Cookie Tastiness',
+                '| Tastiness | Cookie Type |',
+                '|:----:|:-------------|',
+                '| -5  | Raisin |',
+                '| 8th  | Chocolate Chip |',
+                '| 11th | 2 or lower |',
+                '| 14th | 3 or lower |',
+                '| 17th | 4 or lower |\n\n',
+              ].join('\n'))
+            }
+          },
+          {
+            name: 'Wide Table',
+            className: 'fa fa-list',
+            title: 'Wide Table',
+            action: (editor) => {
+              editor.codemirror.replaceSelection([
+                '<div class=\'wide\'>',
+                '##### Cookie Tastiness',
+                '| Tastiness | Cookie Type |',
+                '|:----:|:-------------|',
+                '| -5  | Raisin |',
+                '| 8th  | Chocolate Chip |',
+                '| 11th | 2 or lower |',
+                '| 14th | 3 or lower |',
+                '| 17th | 4 or lower |',
+                '</div>\n\n'
+              ].join('\n'))
+            },
+          },
+          {
+            name: 'Split Table',
+            title: 'Split Table',
+            className: 'fa-th-large',
+            action: (editor) => {
+              editor.codemirror.replaceSelection([
+                '<div style=\'column-count:2\'>',
+                '| d10 | Damage Type |',
+                '|:---:|:------------|',
+                '|  1  | Acid        |',
+                '|  2  | Cold        |',
+                '|  3  | Fire        |',
+                '|  4  | Force       |',
+                '|  5  | Lightning   |',
+                '',
+                '```',
+                '```',
+                '',
+                '| d10 | Damage Type |',
+                '|:---:|:------------|',
+                '|  6  | Necrotic    |',
+                '|  7  | Poison      |',
+                '|  8  | Psychic     |',
+                '|  9  | Radiant     |',
+                '|  10 | Thunder     |',
+                '</div>\n\n',
+              ].join('\n'));
+            },
           }
         ],
         shortcuts: {

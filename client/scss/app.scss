@@ -46,3 +46,8 @@ $primary: 'indigo';
 @import 'pages/_welcome';
 
 @import 'base/print';
+
+@import 'phbStyle/phb.fonts';
+@import 'phbStyle/phb.assets';
+@import 'phbStyle/phb.depricated';
+@import 'phbStyle/phb.style';
